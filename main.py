@@ -7,16 +7,16 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS tab_2(id INTEGER PRIMARY KEY AUTOIN
 sp = [ 1, 5, 'asd', 8, 'nbv' ]
 for i in sp:
     if isinstance(i, int):
-        if i // 2 == 0:
-            cursor.execute('''INSERT INTO tab_2(col_1) VALUES (?, )''', (i, ))
+        if i % 2 == 0:
+            cursor.execute('''INSERT INTO tab_2(col_1) VALUES (?)''', (i, ))
             conn.commit()
         else:
-            cursor.execute('''INSERT INTO tab_1(col_1) VALUES ('нечётное',)''')
+            cursor.execute('''INSERT INTO tab_1(col_1) VALUES ('нечётное')''')
             conn.commit()
     elif isinstance(i, str):
-        cursor.execute('''INSERT INTO tab_1(col_1) VALUES (?,)''', (i,))
+        cursor.execute('''INSERT INTO tab_1(col_1) VALUES (?)''', (i,))
         conn.commit()
-        cursor.execute('''INSERT INTO tab_2(col_1) VALUES (?,)''', (len(i),))
+        cursor.execute('''INSERT INTO tab_2(col_1) VALUES (?)''', (len(i),))
         conn.commit()
 #cursor.execute('''INSERT INTO tab_1(col_1)(?,)''')
 cursor.execute('''SELECT*FROM tab_1''')
@@ -30,11 +30,11 @@ ind1 =1
 ind2 =1
 
 if len(rezult2) > 5:
-    cursor.execute('''DELETE tab_1 WHERE id=ind1''')
+    cursor.execute('''DELETE FROM tab_1 WHERE id=?''', (ind1, ))
     conn.commit()
     ind1 +=1
 else:
-    cursor.execute('''UPDATE tab_1 SET col_1 = 'hello' WHERE id=ind2''')
+    cursor.execute('''UPDATE tab_1 SET col_1 = 'hello' WHERE id=?''', (ind2, ))
     conn.commit()
     ind2 += 1
 
